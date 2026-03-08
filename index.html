@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Mein Shop</title>
+<title>Robitwice Shop</title>
 
 <style>
 
@@ -22,6 +22,30 @@ body{
   padding:20px;
 }
 
+/* Dropdown Button */
+.dropdown-btn{
+  background:none;
+  border:none;
+  color:white;
+  font-size:18px;
+  cursor:pointer;
+  width:100%;
+  text-align:left;
+}
+
+/* versteckte Produkte */
+.dropdown-container{
+  display:none;
+  padding-left:15px;
+}
+
+.dropdown-container a{
+  display:block;
+  color:white;
+  text-decoration:none;
+  margin:5px 0;
+}
+
 /* obere Leiste */
 .topbar{
   margin-left:200px;
@@ -29,9 +53,8 @@ body{
   background:#444;
   color:white;
   display:flex;
-  justify-content:flex-end;
   align-items:center;
-  padding-right:20px;
+  padding-left:20px;
 }
 
 /* Inhalt */
@@ -46,16 +69,40 @@ body{
 <body>
 
 <div class="sidebar">
-  <h2>Produkte</h2>
+
+<button class="dropdown-btn">Produkte</button>
+
+<div class="dropdown-container">
+<a href="#">Shirts</a>
+<a href="#">Pullover</a>
+</div>
+
 </div>
 
 <div class="topbar">
-  <p>Mein Shop</p>
+<h2>Robitwice</h2>
 </div>
 
 <div class="content">
-  <h1>Willkommen in meinem Shop 👕</h1>
+<h1>Willkommen im Shop</h1>
 </div>
+
+<script>
+
+var btn = document.querySelector(".dropdown-btn");
+var dropdown = document.querySelector(".dropdown-container");
+
+btn.addEventListener("click", function() {
+
+if(dropdown.style.display === "block"){
+dropdown.style.display = "none";
+}else{
+dropdown.style.display = "block";
+}
+
+});
+
+</script>
 
 </body>
 </html>
