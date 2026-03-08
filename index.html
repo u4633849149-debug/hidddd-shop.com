@@ -1,59 +1,222 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <title>Robitwice</title>
 
-<link rel="stylesheet" href="style.css">
-<script src="script.js"></script>
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#f4f4f4;
+}
+
+/* obere Leiste */
+
+.topbar{
+height:70px;
+background:#111;
+color:white;
+display:flex;
+align-items:center;
+padding-left:30px;
+font-size:24px;
+}
+
+/* linke Leiste */
+
+.sidebar{
+position:fixed;
+top:70px;
+left:0;
+width:200px;
+height:100%;
+background:#222;
+color:white;
+padding:20px;
+}
+
+/* dropdown */
+
+.dropdown-btn{
+background:none;
+border:none;
+color:white;
+font-size:18px;
+cursor:pointer;
+}
+
+.dropdown-container{
+display:none;
+margin-top:10px;
+}
+
+.dropdown-container a{
+display:block;
+color:#ccc;
+text-decoration:none;
+margin:8px 0;
+cursor:pointer;
+}
+
+.dropdown-container a:hover{
+color:white;
+}
+
+/* content */
+
+.content{
+margin-left:220px;
+margin-top:90px;
+padding:20px;
+}
+
+/* produktkarten */
+
+.products{
+display:flex;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.card{
+background:white;
+padding:15px;
+border-radius:10px;
+width:200px;
+box-shadow:0 5px 10px rgba(0,0,0,0.1);
+text-align:center;
+}
+
+.card img{
+width:100%;
+border-radius:8px;
+}
+
+button{
+margin-top:10px;
+padding:10px;
+border:none;
+background:black;
+color:white;
+cursor:pointer;
+border-radius:6px;
+}
+
+.cart{
+position:fixed;
+top:20px;
+right:20px;
+color:white;
+}
+
+</style>
 
 </head>
 
 <body>
 
 <div class="topbar">
+ROBITWICE
+<div class="cart">
+🛒 <span id="cartCount">0</span>
+</div>
+</div>
 
-<div class="logo">ROBITWICE</div>
+<div class="sidebar">
 
-<a href="cart.html">🛒 Warenkorb</a>
+<button class="dropdown-btn">Produkte</button>
+
+<div class="dropdown-container">
+<a onclick="showShirts()">Shirts</a>
+<a onclick="showPullover()">Pullover</a>
+</div>
 
 </div>
 
-<div class="products">
+<div class="content">
+
+<div id="productArea" class="products">
+
+<h2>Wähle eine Kategorie links</h2>
+
+</div>
+
+</div>
+
+<script>
+
+let cart=0
+
+function addCart(){
+cart++
+document.getElementById("cartCount").innerText=cart
+}
+
+/* Dropdown */
+
+var btn=document.querySelector(".dropdown-btn")
+var dropdown=document.querySelector(".dropdown-container")
+
+btn.onclick=function(){
+
+if(dropdown.style.display==="block"){
+dropdown.style.display="none"
+}else{
+dropdown.style.display="block"
+}
+
+}
+
+/* Shirts anzeigen */
+
+function showShirts(){
+
+document.getElementById("productArea").innerHTML=`
 
 <div class="card">
-
-<img src="https://via.placeholder.com/300">
-
+<img src="https://via.placeholder.com/200">
 <h3>Basic Shirt</h3>
-
 <p>25€</p>
-
-<button onclick="addToCart('Basic Shirt',25)">
-In Warenkorb
-</button>
-
-<a href="shirt.html">Details</a>
-
+<button onclick="addCart()">In Warenkorb</button>
 </div>
 
 <div class="card">
+<img src="https://via.placeholder.com/200">
+<h3>Street Shirt</h3>
+<p>30€</p>
+<button onclick="addCart()">In Warenkorb</button>
+</div>
 
-<img src="https://via.placeholder.com/300">
+`
 
-<h3>Street Hoodie</h3>
+}
 
+/* Pullover anzeigen */
+
+function showPullover(){
+
+document.getElementById("productArea").innerHTML=`
+
+<div class="card">
+<img src="https://via.placeholder.com/200">
+<h3>Basic Pullover</h3>
 <p>50€</p>
-
-<button onclick="addToCart('Street Hoodie',50)">
-In Warenkorb
-</button>
-
-<a href="pullover.html">Details</a>
-
+<button onclick="addCart()">In Warenkorb</button>
 </div>
 
+<div class="card">
+<img src="https://via.placeholder.com/200">
+<h3>Street Hoodie</h3>
+<p>60€</p>
+<button onclick="addCart()">In Warenkorb</button>
 </div>
+
+`
+
+}
+
+</script>
 
 </body>
 </html>
