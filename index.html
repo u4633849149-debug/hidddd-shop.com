@@ -1,309 +1,287 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>ROBITWICE</title>
-
+<title>Robitwice Shop</title>
 <style>
-
+/* -------------------- Body -------------------- */
 body{
-margin:0;
-font-family:Arial;
-background:#0f0f0f;
-color:white;
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#f4f4f4;
+  color:#fff;
 }
 
-/* TOPBAR */
-
+/* -------------------- Topbar -------------------- */
 .topbar{
-height:70px;
-background:#111;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 30px;
-font-weight:bold;
-letter-spacing:2px;
+  height:70px;
+  background:#111;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 30px;
+  font-size:24px;
+  box-shadow:0 3px 8px rgba(0,0,0,0.2);
 }
 
-/* SUCHLEISTE */
-
-.search{
-padding:8px;
-border-radius:6px;
-border:none;
-width:200px;
+.topbar .logo{
+  font-weight:bold;
+  letter-spacing:2px;
 }
 
-/* SIDEBAR */
+.topbar .cart{
+  background:#ff3c3c;
+  padding:10px 15px;
+  border-radius:6px;
+  cursor:pointer;
+}
 
+/* -------------------- Sidebar -------------------- */
 .sidebar{
-position:fixed;
-top:70px;
-left:0;
-width:200px;
-height:100%;
-background:#1a1a1a;
-padding:20px;
+  position:fixed;
+  top:70px;
+  left:0;
+  width:220px;
+  height:calc(100% - 70px);
+  background:#222;
+  padding:20px;
+  box-shadow:2px 0 8px rgba(0,0,0,0.3);
+}
+
+.sidebar h2{
+  margin-top:0;
 }
 
 .dropdown-btn{
-background:none;
-border:none;
-color:white;
-font-size:18px;
-cursor:pointer;
+  background:none;
+  border:none;
+  color:#fff;
+  font-size:18px;
+  width:100%;
+  text-align:left;
+  cursor:pointer;
+  margin:10px 0;
 }
 
 .dropdown-container{
-display:none;
-margin-top:10px;
+  display:none;
+  margin-top:5px;
 }
 
 .dropdown-container a{
-display:block;
-color:#bbb;
-margin:8px 0;
-cursor:pointer;
+  display:block;
+  text-decoration:none;
+  color:#ccc;
+  margin:5px 0;
+  cursor:pointer;
 }
 
 .dropdown-container a:hover{
-color:white;
+  color:#fff;
+  transform:translateX(5px);
+  transition:0.2s;
 }
 
-/* CONTENT */
-
+/* -------------------- Content -------------------- */
 .content{
-margin-left:220px;
-padding:40px;
+  margin-left:220px;
+  padding:40px;
 }
-
-/* PRODUKT GRID */
 
 .products{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:25px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:30px;
 }
 
-/* PRODUKT KARTE */
-
-.card{
-background:#1c1c1c;
-padding:15px;
-border-radius:10px;
-text-align:center;
-transform:translateY(30px);
-opacity:0;
-transition:0.5s;
+/* -------------------- Produktkarte -------------------- */
+.product{
+  background:#1a1a1a;
+  border-radius:12px;
+  padding:15px;
+  text-align:center;
+  transition:0.3s;
+  position:relative;
 }
 
-.card.show{
-transform:translateY(0);
-opacity:1;
+.product:hover{
+  transform:translateY(-8px);
+  box-shadow:0 10px 20px rgba(0,0,0,0.4);
 }
 
-.card img{
-width:100%;
-border-radius:10px;
+.product img{
+  width:100%;
+  border-radius:10px;
+  cursor:pointer;
+  transition:0.3s;
 }
 
-button{
-margin-top:10px;
-padding:10px;
-background:#ff3c3c;
-border:none;
-color:white;
-border-radius:6px;
-cursor:pointer;
+.product img:hover{
+  transform:scale(1.05);
 }
 
-/* WARENKORB PANEL */
-
-.cartPanel{
-position:fixed;
-right:-300px;
-top:0;
-width:300px;
-height:100%;
-background:#111;
-padding:20px;
-transition:0.4s;
+/* Größen Auswahl */
+.sizes button{
+  margin:5px 5px 0 0;
+  padding:6px 10px;
+  background:#ff3c3c;
+  border:none;
+  color:white;
+  cursor:pointer;
+  border-radius:5px;
 }
 
-.cartPanel.open{
-right:0;
+.sizes button.selected{
+  background:#fff;
+  color:#ff3c3c;
+}
+
+/* Favoriten */
+.favorite{
+  position:absolute;
+  top:10px;
+  right:10px;
+  font-size:20px;
+  cursor:pointer;
+  color:#ff3c3c;
+  transition:0.3s;
+}
+
+.favorite.active{
+  transform:scale(1.2);
+}
+
+/* Buttons */
+button.add-cart{
+  margin-top:10px;
+  padding:10px 15px;
+  border:none;
+  background:#ff3c3c;
+  color:white;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+/* -------------------- Responsive -------------------- */
+@media(max-width:800px){
+  .sidebar{
+    width:150px;
+  }
+  .content{
+    margin-left:150px;
+  }
 }
 
 </style>
-
 </head>
-
 <body>
 
+<!-- Topbar -->
 <div class="topbar">
-
-<div>ROBITWICE</div>
-
-<input class="search" placeholder="Suche..." onkeyup="searchProducts()">
-
-<div onclick="toggleCart()">🛒 <span id="cartCount">0</span></div>
-
+  <div class="logo">ROBITWICE</div>
+  <div class="cart">🛒 <span id="cartCount">0</span></div>
 </div>
 
+<!-- Sidebar -->
 <div class="sidebar">
-
+<h2>Kategorien</h2>
 <button class="dropdown-btn">Produkte</button>
-
 <div class="dropdown-container">
-<a onclick="showShirts()">Shirts</a>
-<a onclick="showPullover()">Pullover</a>
+  <a href="#" onclick="filterCategory('Shirt')">Shirts</a>
+  <a href="#" onclick="filterCategory('Pullover')">Pullover</a>
+</div>
 </div>
 
-</div>
-
+<!-- Content -->
 <div class="content">
+<h1>Willkommen im Shop</h1>
+<div class="products" id="productGrid">
 
-<div id="productArea" class="products">
-<h2>Wähle links eine Kategorie</h2>
+  <!-- Produkt 1 -->
+  <div class="product" data-category="Shirt">
+    <div class="favorite" onclick="toggleFavorite(this)">❤️</div>
+    <img src="https://via.placeholder.com/300" alt="Shirt">
+    <h3>Basic Shirt</h3>
+    <p>25€</p>
+    <div class="sizes">
+      <button onclick="selectSize(this)">S</button>
+      <button onclick="selectSize(this)">M</button>
+      <button onclick="selectSize(this)">L</button>
+      <button onclick="selectSize(this)">XL</button>
+    </div>
+    <button class="add-cart" onclick="addCart('Basic Shirt',25)">In Warenkorb</button>
+    <a href="#">Details</a>
+  </div>
+
+  <!-- Produkt 2 -->
+  <div class="product" data-category="Pullover">
+    <div class="favorite" onclick="toggleFavorite(this)">❤️</div>
+    <img src="https://via.placeholder.com/300" alt="Pullover">
+    <h3>Street Hoodie</h3>
+    <p>50€</p>
+    <div class="sizes">
+      <button onclick="selectSize(this)">S</button>
+      <button onclick="selectSize(this)">M</button>
+      <button onclick="selectSize(this)">L</button>
+      <button onclick="selectSize(this)">XL</button>
+    </div>
+    <button class="add-cart" onclick="addCart('Street Hoodie',50)">In Warenkorb</button>
+    <a href="#">Details</a>
+  </div>
+
 </div>
-
-</div>
-
-<div class="cartPanel" id="cartPanel">
-
-<h2>Warenkorb</h2>
-
-<ul id="cartItems"></ul>
-
-<h3>Total: <span id="total">0</span>€</h3>
-
 </div>
 
 <script>
+// -------------------- Dropdown Sidebar --------------------
+var dropdownBtn = document.querySelector(".dropdown-btn");
+var dropdownContainer = document.querySelector(".dropdown-container");
 
-/* DROPDOWN */
-
-let btn=document.querySelector(".dropdown-btn")
-let dropdown=document.querySelector(".dropdown-container")
-
-btn.onclick=function(){
-
-dropdown.style.display=
-dropdown.style.display==="block" ? "none" : "block"
-
+dropdownBtn.onclick = function(){
+  if(dropdownContainer.style.display==="block"){
+    dropdownContainer.style.display="none";
+  }else{
+    dropdownContainer.style.display="block";
+  }
 }
 
-/* WARENKORB */
-
-let cart=[]
-let total=0
+// -------------------- Warenkorb --------------------
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+updateCart();
 
 function addCart(name,price){
-
-cart.push(name)
-
-total+=price
-
-document.getElementById("cartCount").innerText=cart.length
-
-let li=document.createElement("li")
-li.innerText=name+" - "+price+"€"
-
-document.getElementById("cartItems").appendChild(li)
-
-document.getElementById("total").innerText=total
-
+  cart.push({name,price});
+  localStorage.setItem("cart",JSON.stringify(cart));
+  updateCart();
+  alert(name+" hinzugefügt!");
 }
 
-/* CART PANEL */
-
-function toggleCart(){
-
-document.getElementById("cartPanel").classList.toggle("open")
-
+function updateCart(){
+  document.getElementById("cartCount").innerText = cart.length;
 }
 
-/* PRODUKTE */
-
-function showShirts(){
-
-document.getElementById("productArea").innerHTML=`
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1520975916090-3105956dac38">
-<h3>Basic Shirt</h3>
-<p>25€</p>
-<button onclick="addCart('Basic Shirt',25)">Add</button>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c">
-<h3>Street Shirt</h3>
-<p>30€</p>
-<button onclick="addCart('Street Shirt',30)">Add</button>
-</div>
-
-`
-
-animateProducts()
-
+// -------------------- Größen Auswahl --------------------
+function selectSize(btn){
+  let parent = btn.parentNode;
+  Array.from(parent.children).forEach(b=>b.classList.remove("selected"));
+  btn.classList.add("selected");
 }
 
-function showPullover(){
-
-document.getElementById("productArea").innerHTML=`
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990">
-<h3>Black Hoodie</h3>
-<p>50€</p>
-<button onclick="addCart('Black Hoodie',50)">Add</button>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf">
-<h3>Street Hoodie</h3>
-<p>60€</p>
-<button onclick="addCart('Street Hoodie',60)">Add</button>
-</div>
-
-`
-
-animateProducts()
-
+// -------------------- Favoriten --------------------
+function toggleFavorite(icon){
+  icon.classList.toggle("active");
 }
 
-/* ANIMATION */
-
-function animateProducts(){
-
-setTimeout(()=>{
-
-document.querySelectorAll(".card").forEach(c=>{
-
-c.classList.add("show")
-
-})
-
-},100)
-
-}
-
-/* SUCHE */
-
-function searchProducts(){
-
-let input=document.querySelector(".search").value.toLowerCase()
-
-document.querySelectorAll(".card").forEach(card=>{
-
-let text=card.innerText.toLowerCase()
-
-card.style.display=text.includes(input)?"block":"none"
-
-})
-
+// -------------------- Kategorie Filter --------------------
+function filterCategory(cat){
+  let products = document.querySelectorAll(".product");
+  products.forEach(p=>{
+    if(p.getAttribute("data-category")===cat || cat==="all"){
+      p.style.display="block";
+    }else{
+      p.style.display="none";
+    }
+  });
 }
 
 </script>
