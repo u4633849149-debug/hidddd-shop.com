@@ -1,33 +1,66 @@
-let cart = JSON.parse(localStorage.getItem("cart")) || []
+// Produktliste
+const productsData=[
+    {name:"Basic Shirt",price:25,img:"https://via.placeholder.com/300",category:"Shirt",sizes:["S","M","L","XL"]},
+    {name:"Street Hoodie",price:50,img:"https://via.placeholder.com/300",category:"Hoodie",sizes:["S","M","L","XL"]},
+    {name:"Pullover Classic",price:40,img:"https://via.placeholder.com/300",category:"Pullover",sizes:["S","M","L","XL"]}
+]
 
-function addToCart(name,price){
+const productsContainer=document.getElementById("products")
+let cart=[]
+let wishlist=[]
 
-cart.push({name,price})
-
-localStorage.setItem("cart",JSON.stringify(cart))
-
-alert("Produkt im Warenkorb")
-
+function renderProducts(list){
+    productsContainer.innerHTML=""
+    list.forEach((p,i)=>{
+        const card=document.createElement("div")
+        card.className="card"
+        card.innerHTML=`
+            <img src="${p.img}" onclick="viewProduct(${i})">
+            <h3>${p.name}</h3>
+            <p>${p.price}€</p>
+            <select id="size${i}">
+                ${p.sizes.map(s=>`<option>${s}</option>`).join("")}
+            </select><br>
+            <button onclick="addCart(${i})">In Warenkorb</button>
+            <button onclick="addWishlist(${i})">❤️</button>
+        `
+        productsContainer.appendChild(card)
+    })
 }
 
-function loadCart(){
+function addCart(i){
+    const size=document.getElementById(`size${i}`).value
+    cart.push({...productsData[i],size})
+    document.getElementById("cartCount").innerText=cart.length
+    alert(`${productsData[i].name} (${size}) im Warenkorb!`)
+}
 
-let list=document.getElementById("cartItems")
+function addWishlist(i){
+    wishlist.push(productsData[i])
+    document.getElementById("wishlistCount").innerText=wishlist.length
+    alert(`${productsData[i].name} zur Wishlist hinzugefügt!`)
+}
 
-let total=0
+function filterCategory(cat){
+    renderProducts(productsData.filter(p=>p.category===cat))
+}
 
-cart.forEach(item=>{
+function viewProduct(i){
+    alert(`Produkt: ${productsData[i].name}\nPreis: ${productsData[i].price}€`)
+}
 
-let li=document.createElement("li")
+// Dropdown Sidebar
+const btn=document.querySelector(".dropdown-btn")
+const dropdown=document.querySelector(".dropdown-container")
+btn.onclick=()=>{dropdown.style.display=(dropdown.style.display==="block")?"none":"block"}
 
-li.innerText=item.name+" - "+item.price+"€"
+// Initial render
+renderProducts(productsData)
 
-list.appendChild(li)
-
-total+=item.price
-
-})
-
-document.getElementById("total").innerText=total+"€"
-
+// Checkout PayPal
+document.getElementById("checkoutBtn").onclick=()=>{
+    let total=cart.reduce((a,b)=>a+b.price,0)
+    if(total===0){alert("Warenkorb ist leer!"); return}
+    // Redirect PayPal Demo (hier Link anpassen)
+    window.location.href="https://paypal.me/DEINLINK"
 }
