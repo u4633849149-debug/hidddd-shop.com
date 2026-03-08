@@ -3,288 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <title>Robitwice Shop</title>
-<style>
-/* -------------------- Body -------------------- */
-body{
-  margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:#f4f4f4;
-  color:#fff;
-}
-
-/* -------------------- Topbar -------------------- */
-.topbar{
-  height:70px;
-  background:#111;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:0 30px;
-  font-size:24px;
-  box-shadow:0 3px 8px rgba(0,0,0,0.2);
-}
-
-.topbar .logo{
-  font-weight:bold;
-  letter-spacing:2px;
-}
-
-.topbar .cart{
-  background:#ff3c3c;
-  padding:10px 15px;
-  border-radius:6px;
-  cursor:pointer;
-}
-
-/* -------------------- Sidebar -------------------- */
-.sidebar{
-  position:fixed;
-  top:70px;
-  left:0;
-  width:220px;
-  height:calc(100% - 70px);
-  background:#222;
-  padding:20px;
-  box-shadow:2px 0 8px rgba(0,0,0,0.3);
-}
-
-.sidebar h2{
-  margin-top:0;
-}
-
-.dropdown-btn{
-  background:none;
-  border:none;
-  color:#fff;
-  font-size:18px;
-  width:100%;
-  text-align:left;
-  cursor:pointer;
-  margin:10px 0;
-}
-
-.dropdown-container{
-  display:none;
-  margin-top:5px;
-}
-
-.dropdown-container a{
-  display:block;
-  text-decoration:none;
-  color:#ccc;
-  margin:5px 0;
-  cursor:pointer;
-}
-
-.dropdown-container a:hover{
-  color:#fff;
-  transform:translateX(5px);
-  transition:0.2s;
-}
-
-/* -------------------- Content -------------------- */
-.content{
-  margin-left:220px;
-  padding:40px;
-}
-
-.products{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:30px;
-}
-
-/* -------------------- Produktkarte -------------------- */
-.product{
-  background:#1a1a1a;
-  border-radius:12px;
-  padding:15px;
-  text-align:center;
-  transition:0.3s;
-  position:relative;
-}
-
-.product:hover{
-  transform:translateY(-8px);
-  box-shadow:0 10px 20px rgba(0,0,0,0.4);
-}
-
-.product img{
-  width:100%;
-  border-radius:10px;
-  cursor:pointer;
-  transition:0.3s;
-}
-
-.product img:hover{
-  transform:scale(1.05);
-}
-
-/* Größen Auswahl */
-.sizes button{
-  margin:5px 5px 0 0;
-  padding:6px 10px;
-  background:#ff3c3c;
-  border:none;
-  color:white;
-  cursor:pointer;
-  border-radius:5px;
-}
-
-.sizes button.selected{
-  background:#fff;
-  color:#ff3c3c;
-}
-
-/* Favoriten */
-.favorite{
-  position:absolute;
-  top:10px;
-  right:10px;
-  font-size:20px;
-  cursor:pointer;
-  color:#ff3c3c;
-  transition:0.3s;
-}
-
-.favorite.active{
-  transform:scale(1.2);
-}
-
-/* Buttons */
-button.add-cart{
-  margin-top:10px;
-  padding:10px 15px;
-  border:none;
-  background:#ff3c3c;
-  color:white;
-  border-radius:6px;
-  cursor:pointer;
-}
-
-/* -------------------- Responsive -------------------- */
-@media(max-width:800px){
-  .sidebar{
-    width:150px;
-  }
-  .content{
-    margin-left:150px;
-  }
-}
-
-</style>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
 </head>
 <body>
 
-<!-- Topbar -->
+<!-- Navbar -->
 <div class="topbar">
-  <div class="logo">ROBITWICE</div>
-  <div class="cart">🛒 <span id="cartCount">0</span></div>
+    <div class="logo">ROBITWICE</div>
+    <div class="nav-right">
+        <input class="search" placeholder="Suche Produkte...">
+        <div class="wishlist">❤️ <span id="wishlistCount">0</span></div>
+        <div class="cart">🛒 <span id="cartCount">0</span></div>
+        <button class="login-btn">Login</button>
+    </div>
 </div>
 
 <!-- Sidebar -->
 <div class="sidebar">
-<h2>Kategorien</h2>
-<button class="dropdown-btn">Produkte</button>
-<div class="dropdown-container">
-  <a href="#" onclick="filterCategory('Shirt')">Shirts</a>
-  <a href="#" onclick="filterCategory('Pullover')">Pullover</a>
-</div>
+    <button class="dropdown-btn">Produkte</button>
+    <div class="dropdown-container">
+        <a href="#" onclick="filterCategory('Shirt')">Shirts</a>
+        <a href="#" onclick="filterCategory('Pullover')">Pullover</a>
+        <a href="#" onclick="filterCategory('Hoodie')">Hoodies</a>
+    </div>
 </div>
 
 <!-- Content -->
 <div class="content">
-<h1>Willkommen im Shop</h1>
-<div class="products" id="productGrid">
-
-  <!-- Produkt 1 -->
-  <div class="product" data-category="Shirt">
-    <div class="favorite" onclick="toggleFavorite(this)">❤️</div>
-    <img src="https://via.placeholder.com/300" alt="Shirt">
-    <h3>Basic Shirt</h3>
-    <p>25€</p>
-    <div class="sizes">
-      <button onclick="selectSize(this)">S</button>
-      <button onclick="selectSize(this)">M</button>
-      <button onclick="selectSize(this)">L</button>
-      <button onclick="selectSize(this)">XL</button>
+    <div class="products" id="products">
+        <!-- Produkte werden per JS eingefügt -->
     </div>
-    <button class="add-cart" onclick="addCart('Basic Shirt',25)">In Warenkorb</button>
-    <a href="#">Details</a>
-  </div>
-
-  <!-- Produkt 2 -->
-  <div class="product" data-category="Pullover">
-    <div class="favorite" onclick="toggleFavorite(this)">❤️</div>
-    <img src="https://via.placeholder.com/300" alt="Pullover">
-    <h3>Street Hoodie</h3>
-    <p>50€</p>
-    <div class="sizes">
-      <button onclick="selectSize(this)">S</button>
-      <button onclick="selectSize(this)">M</button>
-      <button onclick="selectSize(this)">L</button>
-      <button onclick="selectSize(this)">XL</button>
-    </div>
-    <button class="add-cart" onclick="addCart('Street Hoodie',50)">In Warenkorb</button>
-    <a href="#">Details</a>
-  </div>
-
-</div>
 </div>
 
-<script>
-// -------------------- Dropdown Sidebar --------------------
-var dropdownBtn = document.querySelector(".dropdown-btn");
-var dropdownContainer = document.querySelector(".dropdown-container");
-
-dropdownBtn.onclick = function(){
-  if(dropdownContainer.style.display==="block"){
-    dropdownContainer.style.display="none";
-  }else{
-    dropdownContainer.style.display="block";
-  }
-}
-
-// -------------------- Warenkorb --------------------
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-updateCart();
-
-function addCart(name,price){
-  cart.push({name,price});
-  localStorage.setItem("cart",JSON.stringify(cart));
-  updateCart();
-  alert(name+" hinzugefügt!");
-}
-
-function updateCart(){
-  document.getElementById("cartCount").innerText = cart.length;
-}
-
-// -------------------- Größen Auswahl --------------------
-function selectSize(btn){
-  let parent = btn.parentNode;
-  Array.from(parent.children).forEach(b=>b.classList.remove("selected"));
-  btn.classList.add("selected");
-}
-
-// -------------------- Favoriten --------------------
-function toggleFavorite(icon){
-  icon.classList.toggle("active");
-}
-
-// -------------------- Kategorie Filter --------------------
-function filterCategory(cat){
-  let products = document.querySelectorAll(".product");
-  products.forEach(p=>{
-    if(p.getAttribute("data-category")===cat || cat==="all"){
-      p.style.display="block";
-    }else{
-      p.style.display="none";
-    }
-  });
-}
-
-</script>
+<!-- PayPal Checkout -->
+<div class="checkout-container">
+    <button id="checkoutBtn">💳 Mit PayPal bezahlen</button>
+</div>
 
 </body>
 </html>
