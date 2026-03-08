@@ -8,19 +8,29 @@
 </head>
 <body>
 
+<!-- Login Overlay -->
+<div id="loginOverlay" class="login-overlay">
+    <div class="login-box">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Benutzername">
+        <input type="password" id="password" placeholder="Passwort">
+        <button onclick="login()">Login</button>
+    </div>
+</div>
+
 <!-- Navbar -->
-<div class="topbar">
+<div class="topbar" id="navbar">
     <div class="logo">ROBITWICE</div>
     <div class="nav-right">
         <input class="search" placeholder="Suche Produkte...">
         <div class="wishlist">❤️ <span id="wishlistCount">0</span></div>
         <div class="cart">🛒 <span id="cartCount">0</span></div>
-        <button class="login-btn">Login</button>
+        <button class="login-btn" onclick="logout()">Logout</button>
     </div>
 </div>
 
 <!-- Sidebar -->
-<div class="sidebar">
+<div class="sidebar" id="sidebar">
     <button class="dropdown-btn">Produkte</button>
     <div class="dropdown-container">
         <a href="#" onclick="filterCategory('Shirt')">Shirts</a>
@@ -30,14 +40,12 @@
 </div>
 
 <!-- Content -->
-<div class="content">
-    <div class="products" id="products">
-        <!-- Produkte werden per JS eingefügt -->
-    </div>
+<div class="content" id="content">
+    <div class="products" id="products"></div>
 </div>
 
 <!-- PayPal Checkout -->
-<div class="checkout-container">
+<div class="checkout-container" id="checkoutContainer">
     <button id="checkoutBtn">💳 Mit PayPal bezahlen</button>
 </div>
 
