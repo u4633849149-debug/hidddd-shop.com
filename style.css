@@ -190,3 +190,20 @@ button{
     border-radius:6px;
     cursor:pointer;
 }
+
+.google-btn{
+    width:95%;
+    padding:10px;
+    background:#4285F4;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.toggle-form{
+    color:#007AFF;
+    cursor:pointer;
+    font-weight:bold;
+}
