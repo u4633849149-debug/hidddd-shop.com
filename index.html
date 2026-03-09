@@ -1,76 +1,386 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<title>Robitwice Shop</title>
-<link rel="stylesheet" href="style.css">
-<script src="script.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Official robi-twice Brand Experience 2026">
+    <title>ROBI-TWICE | OFFICIAL HUB</title>
+
+    <style>
+        :root {
+            /* BRAND COLORS */
+            --color-primary-green: #5c8d67;
+            --color-primary-bright: #7bb589;
+            --color-primary-glow: rgba(92, 141, 103, 0.3);
+            
+            /* ULTRA DARK THEME */
+            --color-bg-base: #000000; 
+            --color-bg-surface: #020202; 
+            --color-bg-card: #050505; 
+            
+            /* TEXT */
+            --color-text-main: #ffffff;
+            --color-text-muted: #555555;
+            
+            /* METRICS */
+            --header-height: 100px;
+            --radius-lg: 30px;
+            --radius-md: 15px;
+            --anim-speed: 0.5s;
+            --anim-curve: cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+
+        html { background-color: var(--color-bg-base); scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--color-bg-base);
+            color: var(--color-text-main);
+            font-family: 'Inter', -apple-system, sans-serif;
+            min-height: 100vh;
+            background-image: url('logo.png');
+            background-repeat: repeat;
+            background-size: 160px;
+            background-attachment: fixed;
+        }
+
+        /* Dark Shield Overlay - Macht das Hintergrundbild sehr dezent */
+        .page-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at center, rgba(0,0,0,0.92) 0%, rgba(0,0,0,1) 100%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* HEADER */
+        header {
+            width: 100%;
+            height: var(--header-height);
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 10000;
+            border-bottom: 2px solid var(--color-primary-green);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+        }
+
+        .nav-group { display: flex; align-items: center; gap: 20px; flex: 1; }
+        .nav-group.right { justify-content: flex-end; }
+
+        .brand-title {
+            flex: 1;
+            text-align: center;
+            font-size: 32px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 12px;
+            cursor: pointer;
+            transition: var(--anim-speed);
+        }
+
+        .brand-title:hover { color: var(--color-primary-green); letter-spacing: 14px; }
+
+        .btn-action {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-action.active, .btn-action:hover {
+            background: var(--color-primary-green);
+            border-color: white;
+        }
+
+        .cart-pill {
+            background: white;
+            color: black;
+            padding: 2px 8px;
+            border-radius: 6px;
+            margin-left: 8px;
+            font-size: 11px;
+        }
+
+        /* VIEW SYSTEM */
+        .view-container {
+            display: none;
+            padding: 60px 5%;
+            animation: fadeIn 0.6s var(--anim-curve);
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* LIVE SECTION */
+        .video-triple-grid {
+            display: grid;
+            grid-template-columns: 1fr 2.5fr 1fr;
+            gap: 25px;
+            max-width: 1600px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .v-box {
+            aspect-ratio: 16/9;
+            background: black;
+            border-radius: var(--radius-md);
+            border: 1px solid #111;
+            overflow: hidden;
+            opacity: 0.5;
+            transition: 0.5s;
+        }
+
+        .v-box.main {
+            opacity: 1;
+            border: 3px solid var(--color-primary-green);
+            box-shadow: 0 0 60px var(--color-primary-glow);
+            border-radius: var(--radius-lg);
+        }
+
+        .v-box:hover { opacity: 1; transform: scale(1.02); }
+        iframe { width: 100%; height: 100%; border: none; }
+
+        /* TICKER */
+        .ticker-bar {
+            width: 100%;
+            background: var(--color-primary-green);
+            padding: 15px 0;
+            margin-top: 50px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .ticker-text {
+            display: inline-block;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            animation: scrollText 30s linear infinite;
+        }
+        @keyframes scrollText { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+
+        /* STORE SECTION */
+        .store-header { text-align: center; margin-bottom: 60px; }
+        .store-header h2 { font-size: 50px; text-transform: uppercase; letter-spacing: 5px; }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: var(--color-bg-card);
+            border: 1px solid #111;
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            transition: 0.4s var(--anim-curve);
+        }
+
+        .product-card:hover { border-color: var(--color-primary-green); transform: translateY(-10px); }
+
+        .img-wrap {
+            height: 350px;
+            background: white;
+            border-radius: var(--radius-md);
+            margin-bottom: 25px;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+        .img-wrap img { max-width: 80%; transition: 0.5s; }
+        .product-card:hover .img-wrap img { transform: scale(1.1); }
+
+        .price-tag { font-size: 32px; color: var(--color-primary-green); font-weight: 900; margin: 20px 0; display: block; }
+
+        .selector-ui {
+            width: 100%; padding: 18px; background: black; color: white; border: 1px solid #222;
+            border-radius: 12px; margin-bottom: 15px; font-weight: bold;
+        }
+
+        .btn-buy {
+            width: 100%; padding: 20px; background: var(--color-primary-green); color: white;
+            border: none; border-radius: 15px; font-weight: 900; text-transform: uppercase; cursor: pointer;
+        }
+
+        /* CART SECTION */
+        .cart-ui-box {
+            max-width: 1200px; margin: 0 auto; background: #050505; border-radius: var(--radius-lg);
+            display: grid; grid-template-columns: 1.5fr 1fr; overflow: hidden; border: 1px solid #111;
+        }
+        .cart-list-side { padding: 50px; border-right: 1px solid #111; }
+        .checkout-side { padding: 50px; background: #020202; }
+
+        .cart-item { display: flex; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid #111; }
+        .input-form { width: 100%; padding: 18px; background: #000; border: 1px solid #222; color: white; border-radius: 12px; margin-bottom: 15px; }
+
+        /* FOOTER */
+        footer { padding: 80px 5%; text-align: center; border-top: 1px solid #111; margin-top: 100px; }
+        .footer-logo { font-size: 60px; font-weight: 900; color: #0a0a0a; letter-spacing: 30px; margin-bottom: 30px; }
+    </style>
 </head>
-<body>
+<body onload="engine.init()">
 
-<!-- Login Overlay -->
-<div id="loginOverlay" class="login-overlay">
-    <div class="login-box">
-        <h2>Login</h2>
-        <input type="text" id="username" placeholder="Benutzername">
-        <input type="password" id="password" placeholder="Passwort">
-        <button onclick="login()">Login</button>
-    </div>
-</div>
+    <div class="page-overlay"></div>
 
-<!-- Navbar -->
-<div class="topbar" id="navbar">
-    <div class="logo">ROBITWICE</div>
-    <div class="nav-right">
-        <input class="search" placeholder="Suche Produkte...">
-        <div class="wishlist">❤️ <span id="wishlistCount">0</span></div>
-        <div class="cart">🛒 <span id="cartCount">0</span></div>
-        <button class="login-btn" onclick="logout()">Logout</button>
-    </div>
-</div>
+    <header>
+        <div class="nav-group">
+            <button class="btn-action active" id="btn-home" onclick="engine.view('home')">Live</button>
+            <button class="btn-action" id="btn-shop" onclick="engine.view('shop')">Store</button>
+        </div>
+        <div class="brand-title" onclick="engine.view('home')">robi-twice</div>
+        <div class="nav-group right">
+            <button class="btn-action" id="btn-cart" onclick="engine.view('cart')">
+                Cart <span class="cart-pill" id="cart-count">0</span>
+            </button>
+        </div>
+    </header>
 
-<!-- Sidebar -->
-<div class="sidebar" id="sidebar">
-    <button class="dropdown-btn">Produkte</button>
-    <div class="dropdown-container">
-        <a href="#" onclick="filterCategory('Shirt')">Shirts</a>
-        <a href="#" onclick="filterCategory('Pullover')">Pullover</a>
-        <a href="#" onclick="filterCategory('Hoodie')">Hoodies</a>
-    </div>
-</div>
+    <section id="view-home" class="view-container" style="display: block;">
+        <div class="video-triple-grid">
+            <div class="v-box"><iframe src="https://www.youtube.com/embed/5Mf7S0pDyP0?mute=1&autoplay=1&loop=1"></iframe></div>
+            <div class="v-box main"><iframe src="https://www.youtube.com/embed/live_stream?channel=UCu1ZS9PqAJDStOS5EJiycEQ&autoplay=1&mute=1"></iframe></div>
+            <div class="v-box"><iframe src="https://www.youtube.com/embed/vvj64ZskM9Y?mute=1&autoplay=1&loop=1"></iframe></div>
+        </div>
+        <div class="ticker-bar">
+            <div class="ticker-text">+++ OFFICIAL ROBI-TWICE DROP 2026 +++ LIMITED QUANTITIES +++ WORLDWIDE SHIPPING +++ NEW CONTENT EVERY WEEK +++</div>
+        </div>
+    </section>
 
-<!-- Content -->
-<div class="content" id="content">
-    <div class="products" id="products"></div>
-</div>
+    <section id="view-shop" class="view-container">
+        <div class="store-header">
+            <h2>The Collection</h2>
+            <p style="color: var(--color-primary-green); letter-spacing: 5px;">PREMIUM APPAREL</p>
+        </div>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="img-wrap"><img src="tshirt.png" alt="Shirt"></div>
+                <h3>Signature Tee</h3>
+                <span class="price-tag">29,95 €</span>
+                <select id="s-1" class="selector-ui"><option>Größe: S</option><option>Größe: M</option><option>Größe: L</option></select>
+                <button class="btn-buy" onclick="engine.add('Signature Tee', 29.95, 's-1')">Add to Cart</button>
+            </div>
+            <div class="product-card">
+                <div class="img-wrap"><img src="hoodie.png" alt="Hoodie"></div>
+                <h3>Legacy Hoodie</h3>
+                <span class="price-tag">54,95 €</span>
+                <select id="s-2" class="selector-ui"><option>Größe: S</option><option>Größe: M</option><option>Größe: L</option></select>
+                <button class="btn-buy" onclick="engine.add('Legacy Hoodie', 54.95, 's-2')">Add to Cart</button>
+            </div>
+        </div>
+    </section>
 
-<!-- PayPal Checkout -->
-<div class="checkout-container" id="checkoutContainer">
-    <button id="checkoutBtn">💳 Mit PayPal bezahlen</button>
-</div>
+    <section id="view-cart" class="view-container">
+        <div class="cart-ui-box">
+            <div class="cart-list-side">
+                <h2 style="margin-bottom: 30px;">Your Selection</h2>
+                <div id="cart-items-render"></div>
+                <div style="margin-top: 40px; border-top: 1px solid #222; padding-top: 20px;">
+                    <h3>Total: <span id="cart-total-price" style="color: var(--color-primary-green);">0,00 €</span></h3>
+                </div>
+            </div>
+            <div class="checkout-side">
+                <h2>Checkout</h2>
+                <form id="checkout-form" style="margin-top: 30px;">
+                    <input type="text" name="name" placeholder="Full Name" class="input-form" required>
+                    <input type="text" name="address" placeholder="Shipping Address" class="input-form" required>
+                    <input type="email" name="email" placeholder="Email Address" class="input-form" required>
+                    <input type="hidden" name="order_summary" id="hidden-summary">
+                    <button type="submit" class="btn-buy" style="background: white; color: black;">Complete to PayPal</button>
+                </form>
+            </div>
+        </div>
+    </section>
 
+    <footer>
+        <div class="footer-logo">ROBI-TWICE</div>
+        <p style="color: #222; font-size: 12px; letter-spacing: 2px;">&copy; 2026 ROBI-TWICE ENTERTAINMENT. ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <script>
+        const engine = {
+            cart: [],
+            
+            init: () => {
+                console.log("Robi-Twice Engine Loaded");
+            },
+
+            view: (id) => {
+                document.querySelectorAll('.view-container').forEach(v => v.style.display = 'none');
+                document.querySelectorAll('.btn-action').forEach(b => b.classList.remove('active'));
+                document.getElementById('view-' + id).style.display = 'block';
+                if(document.getElementById('btn-' + id)) document.getElementById('btn-' + id).classList.add('active');
+                window.scrollTo(0,0);
+            },
+
+            add: (name, price, selectId) => {
+                const size = document.getElementById(selectId).value;
+                engine.cart.push({ name, price, size, id: Date.now() });
+                engine.updateUI();
+                alert(name + " added to cart!");
+            },
+
+            remove: (id) => {
+                engine.cart = engine.cart.filter(i => i.id !== id);
+                engine.updateUI();
+            },
+
+            updateUI: () => {
+                const list = document.getElementById('cart-items-render');
+                const totalText = document.getElementById('cart-total-price');
+                const countBadge = document.getElementById('cart-count');
+                
+                countBadge.innerText = engine.cart.length;
+                let sum = 0;
+                let html = "";
+
+                engine.cart.forEach(item => {
+                    sum += item.price;
+                    html += `
+                        <div class="cart-item">
+                            <div><strong>${item.name}</strong><br><small>${item.size}</small></div>
+                            <div>${item.price.toFixed(2)} € <button onclick="engine.remove(${item.id})" style="background:none; border:none; color:red; cursor:pointer; margin-left:10px;">X</button></div>
+                        </div>
+                    `;
+                });
+
+                list.innerHTML = html || "Your cart is empty.";
+                totalText.innerText = sum.toFixed(2).replace('.', ',') + " €";
+                document.getElementById('hidden-summary').value = engine.cart.map(i => i.name + " (" + i.size + ")").join(", ");
+            }
+        };
+
+        document.getElementById('checkout-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if(engine.cart.length === 0) return alert("Cart is empty!");
+
+            const btn = e.target.querySelector('button');
+            btn.innerText = "Processing...";
+            
+            const formData = new FormData(e.target);
+            await fetch('https://formspree.io/f/xlgpdoak', {
+                method: 'POST',
+                body: formData,
+                headers: { 'Accept': 'application/json' }
+            });
+
+            const total = engine.cart.reduce((a, b) => a + b.price, 0).toFixed(2);
+            window.location.href = `https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=bananielheinrich@gmail.com&amount=${total}&currency_code=EUR&item_name=Robi-Twice-Order`;
+        });
+    </script>
 </body>
 </html>
-<!-- Login & Register Overlay -->
-<div id="loginOverlay" class="login-overlay">
-    <div class="login-box">
-        <h2 id="loginTitle">Login</h2>
-
-        <!-- Login Form -->
-        <div id="loginForm">
-            <input type="text" id="loginUsername" placeholder="Benutzername">
-            <input type="password" id="loginPassword" placeholder="Passwort">
-            <button onclick="login()">Login</button>
-            <button class="google-btn" onclick="googleLogin()">Mit Google anmelden</button>
-            <p>Noch keinen Account? <span class="toggle-form" onclick="toggleForm()">Registrieren</span></p>
-        </div>
-
-        <!-- Register Form -->
-        <div id="registerForm" style="display:none;">
-            <input type="text" id="registerUsername" placeholder="Benutzername">
-            <input type="password" id="registerPassword" placeholder="Passwort">
-            <button onclick="register()">Account erstellen</button>
-            <p>Schon einen Account? <span class="toggle-form" onclick="toggleForm()">Login</span></p>
-        </div>
-    </div>
-</div>
